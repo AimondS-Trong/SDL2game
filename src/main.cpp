@@ -28,35 +28,35 @@ bool SDLinit = init();
 
 RenderWindow window("Dual Swing", 640, 480);
 
-SDL_Texture* ballTexture = window.loadTexture("D:/Dual Swing/res/gfx/ball.png");
-SDL_Texture* holeTexture = window.loadTexture("D:/Dual Swing/res/gfx/hole.png");
-SDL_Texture* pointTexture = window.loadTexture("D:/Dual Swing/res/gfx/point.png");
-SDL_Texture* tileDarkTexture32 = window.loadTexture("D:/Dual Swing/res/gfx/tile32_dark.png");
-SDL_Texture* tileDarkTexture64 = window.loadTexture("D:/Dual Swing/res/gfx/tile64_dark.png");
-SDL_Texture* tileLightTexture32 = window.loadTexture("D:/Dual Swing/res/gfx/tile32_light.png");
-SDL_Texture* tileLightTexture64 = window.loadTexture("D:/Dual Swing/res/gfx/tile64_light.png");
-SDL_Texture* ballShadowTexture = window.loadTexture("D:/Dual Swing/res/gfx/ball_shadow.png");
-SDL_Texture* bgTexture = window.loadTexture("D:/Dual Swing/res/gfx/bg.png");
-SDL_Texture* uiBgTexture = window.loadTexture("D:/Dual Swing/res/gfx/UI_bg.png");
-SDL_Texture* levelTextBgTexture = window.loadTexture("D:/Dual Swing/res/gfx/levelText_bg.png");
-SDL_Texture* powerMeterTexture_FG = window.loadTexture("D:/Dual Swing/res/gfx/powermeter_fg.png");
-SDL_Texture* powerMeterTexture_BG = window.loadTexture("D:/Dual Swing/res/gfx/powermeter_bg.png");
-SDL_Texture* powerMeterTexture_overlay = window.loadTexture("D:/Dual Swing/res/gfx/powermeter_overlay.png");
-SDL_Texture* logoTexture = window.loadTexture("D:/Dual Swing/res/gfx/logo.png");
-SDL_Texture* click2startborder = window.loadTexture("D:/Dual Swing/res/gfx/click2startborder.png");
-SDL_Texture* endscreenOverlayTexture = window.loadTexture("D:/Dual Swing/res/gfx/end.png");
-SDL_Texture* splashBgTexture = window.loadTexture("D:/Dual Swing/res/gfx/splashbg.png");
+SDL_Texture* ballTexture = window.loadTexture("res/gfx/ball.png");
+SDL_Texture* holeTexture = window.loadTexture("res/gfx/hole.png");
+SDL_Texture* pointTexture = window.loadTexture("res/gfx/point.png");
+SDL_Texture* tileDarkTexture32 = window.loadTexture("res/gfx/tile32_dark.png");
+SDL_Texture* tileDarkTexture64 = window.loadTexture("res/gfx/tile64_dark.png");
+SDL_Texture* tileLightTexture32 = window.loadTexture("res/gfx/tile32_light.png");
+SDL_Texture* tileLightTexture64 = window.loadTexture("res/gfx/tile64_light.png");
+SDL_Texture* ballShadowTexture = window.loadTexture("res/gfx/ball_shadow.png");
+SDL_Texture* bgTexture = window.loadTexture("res/gfx/bg.png");
+SDL_Texture* uiBgTexture = window.loadTexture("res/gfx/UI_bg.png");
+SDL_Texture* levelTextBgTexture = window.loadTexture("res/gfx/levelText_bg.png");
+SDL_Texture* powerMeterTexture_FG = window.loadTexture("res/gfx/powermeter_fg.png");
+SDL_Texture* powerMeterTexture_BG = window.loadTexture("res/gfx/powermeter_bg.png");
+SDL_Texture* powerMeterTexture_overlay = window.loadTexture("res/gfx/powermeter_overlay.png");
+SDL_Texture* logoTexture = window.loadTexture("res/gfx/logo.png");
+SDL_Texture* click2startborder = window.loadTexture("res/gfx/click2startborder.png");
+SDL_Texture* endscreenOverlayTexture = window.loadTexture("res/gfx/end.png");
+SDL_Texture* splashBgTexture = window.loadTexture("res/gfx/splashbg.png");
 
-Mix_Chunk* chargeSfx = Mix_LoadWAV("D:/Dual Swing/res/sfx/charge.mp3");
-Mix_Chunk* swingSfx = Mix_LoadWAV("D:/Dual Swing/res/sfx/swing.mp3");
-Mix_Chunk* holeSfx = Mix_LoadWAV("D:/Dual Swing/res/sfx/hole.mp3");
+Mix_Chunk* chargeSfx = Mix_LoadWAV("res/sfx/charge.mp3");
+Mix_Chunk* swingSfx = Mix_LoadWAV("res/sfx/swing.mp3");
+Mix_Chunk* holeSfx = Mix_LoadWAV("res/sfx/hole.mp3");
 
 
 SDL_Color white = { 255, 255, 255 };
 SDL_Color black = { 0, 0, 0 };
-TTF_Font* font32 = TTF_OpenFont("D:/Dual Swing/res/font/font.ttf", 32);
-TTF_Font* font48 = TTF_OpenFont("D:/Dual Swing/res/font/font.ttf", 48);
-TTF_Font* font24 = TTF_OpenFont("D:/Dual Swing/res/font/font.ttf", 24);
+TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
+TTF_Font* font48 = TTF_OpenFont("res/font/font.ttf", 48);
+TTF_Font* font24 = TTF_OpenFont("res/font/font.ttf", 24);
 
 Ball balls[2] = {Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0), Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 1)};
 std::vector<Hole> holes = {Hole(Vector2f(0, 0), holeTexture), Hole(Vector2f(0, 0), holeTexture)};
