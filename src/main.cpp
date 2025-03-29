@@ -26,7 +26,7 @@ bool init()
 
 bool SDLinit = init();
 
-RenderWindow window("Dual Swing", 640, 480);
+RenderWindow window("Dual Swing", "res/gfx/window_logo.png", 640, 480);
 
 SDL_Texture* ballTexture = window.loadTexture("res/gfx/ball.png");
 SDL_Texture* holeTexture = window.loadTexture("res/gfx/hole.png");
