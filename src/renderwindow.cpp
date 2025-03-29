@@ -6,7 +6,7 @@
 #include "RenderWindow.h"
 #include "Entity.h"
 
-RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
+RenderWindow::RenderWindow(const char* p_title, const char* iconPath, int p_w, int p_h)
 	:window(NULL), renderer(NULL)
 {
 	window = SDL_CreateWindow(p_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, p_w, p_h, SDL_WINDOW_SHOWN);
@@ -17,6 +17,15 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
 	}
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	SDL_Surface* icon = IMG_Load(iconPath);
+	if (!icon)
+	{
+		std::cout << "Failed to load icon. Error: " << SDL_GetError() << std::endl;
+		return;
+	}
+	SDL_SetWindowIcon(window, icon);
+	SDL_FreeSurface(icon);
 }
 
 SDL_Texture* RenderWindow::loadTexture(const char* p_filePath)
