@@ -12,22 +12,24 @@
 #include "Tile.h"
 #include "Hole.h"
 
+using namespace std;
 bool init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) > 0)
-		std::cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: " << SDL_GetError() << std::endl;
+		cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: " << SDL_GetError() << endl;
 	if (!(IMG_Init(IMG_INIT_PNG)))
-		std::cout << "IMG_init has failed. Error: " << SDL_GetError() << std::endl;
+		cout << "IMG_init has failed. Error: " << SDL_GetError() << endl;
 	if (!(TTF_Init()))
-		std::cout << "TTF_init has failed. Error: " << TTF_GetError() << std::endl;
+		cout << "TTF_init has failed. Error: " << TTF_GetError() << endl;
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	return true;
 }
 
 bool SDLinit = init();
 
-RenderWindow window("Dual Swing", "res/gfx/window_logo.png", 640, 480);
+RenderWindow window("Dual Swing", "res/gfx/window_logo.png", 640, 480); //tạo window
 
+//khai báo các texture sử dụng
 SDL_Texture* ballTexture = window.loadTexture("res/gfx/ball.png");
 SDL_Texture* holeTexture = window.loadTexture("res/gfx/hole.png");
 SDL_Texture* pointTexture = window.loadTexture("res/gfx/point.png");
@@ -47,23 +49,26 @@ SDL_Texture* click2startborder = window.loadTexture("res/gfx/click2startborder.p
 SDL_Texture* endscreenOverlayTexture = window.loadTexture("res/gfx/end.png");
 SDL_Texture* splashBgTexture = window.loadTexture("res/gfx/splashbg.png");
 
+//khai báo audio
 Mix_Chunk* chargeSfx = Mix_LoadWAV("res/sfx/charge.mp3");
 Mix_Chunk* swingSfx = Mix_LoadWAV("res/sfx/swing.mp3");
 Mix_Chunk* holeSfx = Mix_LoadWAV("res/sfx/hole.mp3");
 
-
+//khai báo định dạng font
 SDL_Color white = { 255, 255, 255 };
 SDL_Color black = { 0, 0, 0 };
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font48 = TTF_OpenFont("res/font/font.ttf", 48);
 TTF_Font* font24 = TTF_OpenFont("res/font/font.ttf", 24);
 
+//khai báo 2 ball
 Ball balls[2] = {Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0), Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 1)};
-std::vector<Hole> holes = {Hole(Vector2f(0, 0), holeTexture), Hole(Vector2f(0, 0), holeTexture)};
+vector<Hole> holes = {Hole(Vector2f(0, 0), holeTexture), Hole(Vector2f(0, 0), holeTexture)};
 
-std::vector<Tile> loadTiles(int level)
+//khai báo ô cản theo map
+vector<Tile> loadTiles(int level)
 {
-	std::vector<Tile> temp = {};
+	vector<Tile> temp = {};
 	switch(level) 
 	{
 		case 0:
@@ -122,7 +127,7 @@ std::vector<Tile> loadTiles(int level)
 }
 
 int level = 0;
-std::vector<Tile> tiles = loadTiles(level);
+vector<Tile> tiles = loadTiles(level);
 
 bool gameRunning = true;
 bool mouseDown = false;
@@ -140,6 +145,7 @@ Uint64 currentTick = SDL_GetPerformanceCounter();
 Uint64 lastTick = 0;
 double deltaTime = 0;
 
+//dựng hàm loadlevel
 void loadLevel(int level)
 {
 	if (level > 4)
@@ -196,6 +202,7 @@ void loadLevel(int level)
 	}
 }
 
+//tính số lần đánh
 const char* getStrokeText()
 {
 	int biggestStroke = 0;
@@ -207,11 +214,12 @@ const char* getStrokeText()
 	{
 		biggestStroke = balls[0].getStrokes();
 	}
-	std::string s = std::to_string(biggestStroke);
+	string s = to_string(biggestStroke);
 	s = "STROKES: " + s;
 	return s.c_str();
 }
 
+//tính hole hiện tại đang đánh
 const char* getLevelText(int side)
 {
 	int tempLevel = (level + 1)*2 - 1;
@@ -219,11 +227,12 @@ const char* getLevelText(int side)
 	{
 		tempLevel++;
 	}
-	std::string s = std::to_string(tempLevel);
+	string s = to_string(tempLevel);
 	s = "HOLE: " + s;
 	return s.c_str();
 }
 
+//hàm update game theo thời gian (gamestate, ball, level)
 void update()
 {
 	
@@ -270,6 +279,7 @@ void update()
 	}
 }
 
+//hàm hiển thị đồ họa (ball, tile, powerbar, UI, end screen)
 void graphics()
 {
 	window.clear();
@@ -328,6 +338,7 @@ void graphics()
 	window.display();
 }
 
+//hàm hiển thị title screen
 void titleScreen()
 {
 	if (SDL_GetTicks() < 2000)
@@ -394,6 +405,8 @@ void titleScreen()
 		window.display();
 	}
 }
+
+//hàm stategame _ stategame dòng 142
 void game()
 {
 	if (state == 0)
@@ -406,6 +419,8 @@ void game()
 		graphics();
 	}
 }
+
+//hàm main
 int main(int argc, char* args[])
 {
 	FreeConsole();
