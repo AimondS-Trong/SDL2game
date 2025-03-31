@@ -45,8 +45,9 @@ void Ball::setWin(bool p_win)
 
 void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles,std::vector<Hole> holes, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx)
 {   
-    if (win)
+    if (win) // Kiểm tra bóng vào lỗ chưa
     {
+	// Kéo bóng vào lỗ từ từ nếu thỏa mãn điều kiện
         if (getPos().x < target.x)
         {
             setPos(getPos().x += 0.1*deltaTime, getPos().y);
@@ -63,36 +64,39 @@ void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vect
         {
             setPos(getPos().x, getPos().y -= 0.1*deltaTime);
         }
+	// Thu nhỏ bóng nếu bóng vào lỗ
         setScale(getScale().x - 0.001*deltaTime, getScale().y - 0.001*deltaTime);
         return;
     }
-    
-    for (Hole h : holes)
+	
+    for (Hole h : holes) // Kiểm tra nếu bóng dã vào lỗ _ duyệt từng lỗ
     {
-        if (getPos().x + 4 > h.getPos().x && getPos().x + 16 < h.getPos().x + 20 && getPos().y + 4 > h.getPos().y && getPos().y + 16 < h.getPos().y + 20)
+        if (getPos().x + 4 > h.getPos().x && getPos().x + 16 < h.getPos().x + 20 && getPos().y + 4 > h.getPos().y && getPos().y + 16 < h.getPos().y + 20) // Kiểm tra nếu bóng trong phạm vi của lỗ
         {
-            Mix_PlayChannel(-1, holeSfx, 0);
+            Mix_PlayChannel(-1, holeSfx, 0); // Chạy âm thanh
             setWin(true);
+	    // Cập nhật target
             target.x = h.getPos().x ;
             target.y = h.getPos().y + 3;
         }
     }
 
-    if (mousePressed && canMove)
+    if (mousePressed && canMove) // Kiểm tra nếu chuột nhấn và có thể di chuyển bóng
     {
-        Mix_PlayChannel(-1, chargeSfx, 0);
-        playedSwingFx = false;
+        Mix_PlayChannel(-1, chargeSfx, 0); // chạy âm thanh tụ lực
+        playedSwingFx = false; // Set state đánh bóng = false
+	// Tính toán độ dịch của chuột
         int mouseX = 0;
-	    int mouseY = 0;
-	    SDL_GetMouseState(&mouseX, &mouseY);
+	int mouseY = 0;
+	SDL_GetMouseState(&mouseX, &mouseY);
         setInitialMousePos(mouseX, mouseY);
     }
-    if (mouseDown && canMove)
+    if (mouseDown && canMove) // Kiểm tra giữ chuột và có thể di chuyển bóng
     {
-        
+        // Tính toán lực bắn
         int mouseX = 0;
-	    int mouseY = 0;
-	    SDL_GetMouseState(&mouseX, &mouseY);
+	int mouseY = 0;
+	SDL_GetMouseState(&mouseX, &mouseY);
         setVelocity((mouseX - getInitialMousePos().x)/-150, (mouseY - getInitialMousePos().y)/-150);
         setLaunchedVelocity((mouseX - getInitialMousePos().x)/-150, (mouseY - getInitialMousePos().y)/-150);
         velocity1D = SDL_sqrt(SDL_pow(abs(getVelocity().x), 2) + SDL_pow(abs(getVelocity().y), 2));
@@ -125,14 +129,10 @@ void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vect
         powerBar.at(0).setPos(-64, -64);
         powerBar.at(1).setPos(-64, -64);
         canMove = false;
+	// Cập nhật chuyển động bóng theo lực
         setPos(getPos().x + getVelocity().x*deltaTime, getPos().y + getVelocity().y*deltaTime);
         if (getVelocity().x > 0.0001 || getVelocity().x < -0.0001 || getVelocity().y > 0.0001 || getVelocity().y < -0.0001)
         {
-            //float xDir = velocity.x/abs(velocity.x);
-            //float yDir = velocity.y/abs(velocity.y);
-
-            //velocity.x = (abs(velocity.x) - friction*deltaTime)*xDir;
-            //velocity.y = (abs(velocity.y) - friction*deltaTime)*yDir;
             if (velocity1D > 0)
             {
                 velocity1D -= friction*deltaTime;
@@ -155,7 +155,7 @@ void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vect
             setInitialMousePos(mouseX, mouseY);
             canMove = true;
         }
-
+	// Xử lý va chạm border
         if (getPos().x + getCurrentFrame().w > 640/(2 - index))
         {
             setVelocity(-abs(getVelocity().x), getVelocity().y);
@@ -176,7 +176,7 @@ void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vect
             setVelocity(getVelocity().x, abs(getVelocity().y));
             dirY = 1;
         }
-
+	// Xử lý va chạm với tile
         for (Tile& t : tiles)
 	    { 
 		    float newX = getPos().x + getVelocity().x*deltaTime;
